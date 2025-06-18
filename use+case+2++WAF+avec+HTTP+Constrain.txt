@@ -1,0 +1,99 @@
+use case 2 : WAF avec HTTP Constraints
+
+
+contexte : Un serveur web hébergé en DMZ (Apache + PHP) expose une page form.php
+Nous souhaitons renforcer la sécurité sans utiliser les signatures WAF (ex : XSS, SQLi), uniquement via des règles basées sur la structure HTTP:
+ Trop de headers
+ Cookies excessifs
+ Paramètres d’URL en excès
+ Longueur excessive d’un header
+ En-tête HTTP trop long
+
+Objectif :
+Mettre en place une politique de sécurité WAF basée uniquement sur les contraintes HTTP (HTTP Constraints) pour bloquer des requêtes anormales pouvant indiquer une attaque ou une tentative d’évasion.
+
+tous les parametres :
+Paramètre : Illegal Host Name
+Description : Bloque les requêtes avec un nom d’hôte (Host:) non conforme ou suspect.
+
+Paramètre : Illegal HTTP Version
+Description : Bloque les requêtes utilisant une version HTTP non supportée (ex: HTTP/0.9 ou HTTP/3).
+
+Paramètre : Illegal HTTP Request Method
+Description : Bloque les méthodes HTTP non classiques comme TRACE, CONNECT, etc.
+
+Paramètre : Content Length
+Description : Limite la taille du corps de la requête HTTP (POST, PUT…).
+
+Paramètre : Header Length
+Description : Taille totale maximale de tous les en-têtes HTTP (en octets).
+
+Paramètre : Header Line Length
+Description : Longueur maximale autorisée pour une seule ligne d’en-tête HTTP.
+
+Paramètre : Number of Header Lines in Request
+Description : Nombre maximum de lignes dans les en-têtes HTTP.
+
+Paramètre : Total URL and Body Parameters Length
+Description : Longueur maximale cumulée des paramètres URL et POST.
+
+Paramètre : Total URL Parameters Length
+Description : Taille maximale de la chaîne de paramètres dans l’URL.
+
+
+Paramètre : Number of URL Parameters
+Description : Nombre maximum de paramètres dans l’URL.
+
+Paramètre : Number of Cookies in Request
+Description : Nombre maximal de cookies envoyés dans la requête.
+
+Paramètre : Number of Ranges in Range Header
+Description : Nombre maximal de segments spécifiés dans l’en-tête HTTP Range.
+
+Paramètre : Malformed Request
+Description : Active la détection et le blocage des requêtes HTTP malformées (caractères interdits, structure incorrecte).
+
+
+les parametres choisies : 
+header-line-length 512
+header-length : 4096 
+max-cookies : 10
+max-url-pram : 10
+max-range-segement : 2 
+
+
+tests: 
+test : header-length 
+curl -H "X-Test: $(head -c 5000 </dev/zero | tr '\0' A)" http://172.16.1.253/form.php -v
+
+test : max-cookie
+curl --cookie "a=1; b=2; c=3; d=4; e=5; f=6; g=7; h=8; i=9; j=10; k=11" http://172.16.1.253/form.php
+
+test : header-line-length
+curl -H "X-Test: $(head -c 600 </dev/zero | tr '\0' A)" http://172.16.1.253/form.php -v
+
+test : max-url-param
+curl "http://172.16.1.253/form.php?$(for i in $(seq 1 30); do echo -n "a$i=1&"; done)"
+
+
+test : max-range-segment
+curl -H "Range: bytes=0-10,20-30,40-50,60-70,80-90,100-110" http://172.16.1.253/form.php
+
+
+recommandation :
+| Paramètre                   | Recommandé       |
+|-----------------------------|------------------|
+| Illegal Host Name           | ✅ Enable + Block |
+| Illegal HTTP Version        | ✅ Enable + Block |
+| Illegal HTTP Request Method | ✅ Enable + Block |
+| Content Length              | ✅ 1 Mo max       |
+| Header Length               | ✅ 4 Ko max       |
+| Header Line Length          | ✅ 512 ou 1024    |
+| Number of Header Lines      | ✅ 20 ou 32 max   |
+| URL and Body Param Length   | ✅ 8192 max       |
+| URL Parameters Length       | ✅ 2048 max       |
+| Number of URL Parameters    | ✅ 10 à 16 max    |
+| Number of Cookies           | ✅ 10 à 16 max    |
+| Number of Range Segments    | ✅ 5 max          |
+| Malformed Request           | ✅ Enable + Block |
+

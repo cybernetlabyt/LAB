@@ -1,0 +1,61 @@
+use case 1 : Protection XSS avec FortiGate Web Application Firewall (WAF)
+
+
+Contexte :
+Une entreprise héberge une application PHP interne contenant un formulaire vulnérable. Des utilisateurs/attaquants malveillants pourraient injecter du JavaScript via ce formulaire pour voler des cookies ou détourner des sessions. On souhaite protéger ce formulaire avec le module WAF de FortiGate contre :
+
+les attaques XSS classiques,
+les XSS étendues (obfusquées),
+les fuites d’information serveur (information disclosure),
+les mauvaises méthodes HTTP (PUT, DELETE...).
+
+
+Objectif : Mettre en œuvre le module WAF de FortiGate pour détecter et bloquer les attaques Cross-Site Scripting (XSS) en utilisant à la fois des méthodes GET et POST.
+
+page :
+http://172.16.1.253/form.php
+http://172.16.1.253/info.php
+
+signatures :
+cross site scripting (XSS) : détections de code javascript dans un champ GET ou POST  (attaque classique)
+
+Cross Site Scripting (Extended) : 
+Détecter des XSS plus obfusqués ou indirects (ex: via image, SVG, ou URL encodée)
+
+Generic Attacks : 
+Bloquer des comportements suspects (traversée de répertoire, tentative de RFI (Remote File Inclusion), etc.).
+
+Generic Attacks (Extended):
+Détecter des attaques complexes ou peu courantes avec encodage ou chaines obscures
+
+Information Disclosure :
+Bloquer les pages qui exposent des infos système, chemins, modules, erreurs PHP
+
+
+config :
+Restriction method
+config method
+edit 1
+set pattern "/form.php" et "/info/php"
+set regex disable
+set allowed-methods get post
+next
+end
+
+
+test sans attaque :
+GET  : http://172.16.1.253/form.php
+POST : http://172.16.1.253/form.php (remplir le champs nom : test)
+
+
+test avec attaque :
+GET http://172.16.1.253/form.php?name=<script>alert('XSS')</script>
+curl -X POST -d "name=<script>alert('XSS')</script>" http://172.16.1.253/form.php
+
+
+DELETE : curl -X DELETE http://172.16.1.253/form.php
+
+
+
+
+

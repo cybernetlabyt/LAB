@@ -1,0 +1,83 @@
+use cas 1 : Blocage des VPN, Proxies et Accès à Distance (block-anonymat)
+
+Objectif : 
+Configurer une protection complète contre les services d’anonymat (VPN, Proxy, Remote Access) :
+- les sites de contournement
+- les logiciels d’accès distant
+- les domaines dynamiques ou récemment créés
+- les mots-clés interdits (dans le contenu)
+- les requêtes POST utilisées pour uploader ou établir des connexions
+- tout en activant un filtrage intelligent sur Google, Bing, Yahoo et YouTube
+
+cas d'utilisation :
+Écoles et établissements scolaires : pour éviter que les élèves accèdent à des services de contournement, VPN, contenus inappropriés ou échappent à la surveillance réseau,
+
+Entreprises : pour garantir la conformité, limiter les risques de fuite de données, empêcher l’utilisation de tunnels VPN non autorisés, et renforcer la cybersécurité,
+
+Administrations publiques / institutions : pour assurer la souveraineté numérique, éviter les contournements réseau et renforcer les audits de trafic
+
+
+fortiguard  : 
+Élément	                        Explication
+Proxy Avoidance 	        Sites de contournement (ex : kproxy.com, ultrasurf…)
+Remote Access 	                Logiciels comme TeamViewer, AnyDesk, etc.
+Dynamic DNS 	                Services masquant l’IP réelle, souvent utilisés pour tunneling / IP qui change                       
+Newly Registered Domain 	Domaines fraîchement créés, souvent utilisés par les VPN récents
+
+content filter :
+Mot-clé	Action
+vpn	        Block
+proxy	        Block
+ultrasurf	Block
+ssh tunnel	Block
+bypass firewall Block
+
+
+ Search Engines :
+garantir une navigation plus sûre dès la phase de recherche en ligne, en intégrant les filtres des moteurs pour limiter les résultats à des contenus appropriés
+contenus adultes,résultats sensibles,suggestions dangereuses, vidéos inappropriées (YouTube aussi si activé).
+
+ Restrict YouTube Access:
+les vidéos avec contenu sexuel, violent, ou haineux,
+les vidéos avec un langage inapproprié,
+les commentaires perturbants ou offensants,
+certains résultats de recherche sensibles (vpn, hack…).
+
+POST block : 
+Exfiltration de données	        Un malware tente d’envoyer un fichier volé via POST
+Tunnel dissimulé dans HTTP	Outils comme hts, dns2tcp, ICMP-tunnel ou des VPN HTTP utilisent POST
+contournement de filtrage	Un site d’anonymisation reçoit les données via POST (ex : formulaire proxy)
+
+
+exemples :
+a) Proxy Avoidance 
+| Exemple 1 | https://kproxy.com |
+| Exemple 2 | https://proxysite.com |
+
+b) Remote Access 
+| Exemple 1 | https://www.teamviewer.com |
+| Exemple 2 | https://www.anydesk.com |
+
+c) Dynamic DNS 
+| Exemple 1 | https://www.noip.com |
+| Exemple 2 | https://duckdns.org |
+
+d) Newly Registered Domain 
+| Exemple 1 | https://freshvpn.net |
+| Exemple 2 | https://vpnnewhost.ddns.net |
+
+e) Recherches à effectuer dans Google : Safe Search activé (Google, Bing, Yahoo)
+| Exemple 1 | how to bypass firewall with vpn |
+| Exemple 2 | free proxy list 2024 |
+
+f) YouTube Restricted Mode : Strict
+| Exemple 1 | Recherche vpn tutorial |
+| Exemple 2 | Recherche how to use proxy to access school wifi |
+
+i) Mot-clé : vpn
+| Exemple 1 | Page HTML locale contenant le mot vpn |
+| Exemple 2 | https://vpnbook.com (contenu texte "vpn", "free vpn") |
+
+j) Mot-clé : ssh
+| Exemple 1 | https://ssh.com/academy/ssh/tunneling |
+| Exemple 2 | https://www.geeksforgeeks.org/ssh-tunneling/ |

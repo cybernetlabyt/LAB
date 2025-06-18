@@ -1,0 +1,57 @@
+use case 2 : Accès aux sites web différencié selon le profil utilisateur (RH vs Utilisateurs standards)
+
+Objectif : Mettre en place une stratégie granulaire de contrôle d’accès web selon les fonctions des utilisateurs (ex. RH vs employé lambda), pour :
+
+Garantir la productivité,
+Limiter la distraction (réseaux sociaux, streaming),
+Permettre l’accès à des outils RH ou professionnels seulement aux personnes autorisées,
+Appliquer une politique cohérente à long terme, respectueuse du RGPD.
+
+Cas d’utilisation : 
+Département / Fonction	         Accès requis / logique
+RH / Direction / Managers	 YouTube (pour formations RH), LinkedIn, Pôle Emploi, outils SaaS
+Employés standards	         Intranet, outils bureautiques (Gmail, O365), interdit YouTube, réseaux   sociaux
+
+Authentification & group mapping
+Groupe FortiGate	     Méthode d'identification
+grp_rh_users	             IP statique / FSSO / LDAP AD OU
+grp_standard_users	     Plage IP standard ou FSSO de base
+
+
+webfilter_RH (RH & managers)
+Composant	        Configuration
+Streaming Media         block 
+Social Networking	block 
+Web-based Applications	Allow 
+LinkedIn, Pôle Emploi	via Static URL Filter (Allow)
+YouTube Restriction	Modéré (pas Strict)
+Safe Search	        Activé
+POST blocking	        Non (liberté RH)
+
+webfilter_Standard (employés classiques)
+Composant	                Configuration
+Streaming Media	                Block 
+Social Networking	        Block 
+Web-based Applications	        block 
+YouTube	                        Block
+Safe Search	                Activé
+POST blocking	                Activé
+Business                        bloqué
+Job Search                      block
+Exception :                     Gmail, Office365, office365.com	via Static URL Filter
+
+Static URL Filters  Nom	URL / Expression	Action
+office365	    *.office365.com	        allow
+gmail	            *.gmail.com	                allow
+facebook.com        *.facebook.com              allow
+
+
+Tests                 URL / Service	RH (✅/❌)	Standard (✅/❌)
+https://youtube.com	              ✅ ok	            ❌  ok
+https://linkedin.com	              ✅ ok	            ❌  ok
+https://indeed.com	              ✅ ok	            ❌  ok
+https://office365.com	              ✅ ok	            ✅  ok
+https://gmail.com	              ✅ ok	            ✅ 
+https://facebook.com	              ✅ ok	            ❌ 
+
+

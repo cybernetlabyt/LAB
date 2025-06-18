@@ -1,0 +1,24 @@
+----------INTRO----------
+https://www.fortinet.com/resources/cyberglossary/unified-threat-management
+https://community.fortinet.com/t5/FortiGate/tkb-p/TKB20
+https://www.nist.gov/cyberframework
+
+
+----------LAB-AV----------
+http://assiste.com.free.fr
+www.eicar.org
+www.csm-testcenter.org
+c.rosu.free.fr
+secure.eicar.org
+
+----------LAB-IPS----------
+https://docs.fortinet.com/document/ipsengine/7.6.0/custom-ips-and-application-control-signature-syntax-guide/274110/creating-ips-and-application-control-signatures
+
+
+----------LAB-Web Filter----------
+https://www.fortiguard.com/webfilter
+
+
+----------LAB-APP CONTROL----------
+https://www.fortiguard.com/appcontrol
+https://docs.fortinet.com/document/ipsengine/7.6.0/custom-ips-and-application-control-signature-syntax-guide/274110/creating-ips-and-application-control-signatures

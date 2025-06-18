@@ -1,0 +1,30 @@
+
+https://docs.fortinet.com/document/ipsengine/7.6.0/custom-ips-and-application-control-signature-syntax-guide/274110/creating-ips-and-application-control-signatures
+
+Custom signature syntax:
+
+F-SBID( --<option1> [<value1>]; --<option2> [<value2>];...)
+
+pattern : "WWW-Authenticate: NTLM"
+
+context : header
+
+description : "Detection of NTLM Challenge sent over HTTP, ref: https://attack.mitre.org/techniques/T1557/001"
+
+Résumé des champs F-SBID utilisés :
+Option	Description
+--name	Nom interne de la signature
+--service	Protocole analysé (ici HTTP)
+--protocol	TCP ou UDP
+--severity	Niveau de sévérité de la détection
+--pattern	Chaîne à détecter (ici le header NTLM)
+--context	Contexte dans lequel chercher (header, body, url, etc.)
+--no_case	Recherche insensible à la casse
+--description	Description de la signature
+
+
+F-SBID(--name "NTLM_RESPONDER_HTTP"; --service http; --protocol tcp; --severity medium; --pattern "WWW-Authenticate: NTLM"; --context header; --no_case; --description "Detection of NTLM Challenge sent over HTTP, ref: https://attack.mitre.org/techniques/T1557/001";)
+
+
+"IPS is performed on the incoming interface of a firewall policy, and the pattern matching is done based on the direction of traffic as defined by that policy."
+

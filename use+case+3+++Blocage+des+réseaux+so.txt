@@ -1,0 +1,26 @@
+use case 3 :  Blocage des réseaux sociaux sauf entre 12h et 14h
+
+
+Objectif 
+Configurer FortiGate pour :
+
+Bloquer les réseaux sociaux (Facebook, Instagram, TikTok, etc.) pendant les heures de travail.
+
+Autoriser uniquement entre 12h et 14h (pause déjeuner).
+
+Appliquer ce filtrage via :
+
+Catégorie FortiGuard
+
+Politique horaire
+
+SafeSearch et logging activé
+
+Filtrage en mode proxy
+
+Heure	Site visité	Résultat attendu
+11:59	facebook.com	❌ Bloqué
+12:01	facebook.com	✅ Autorisé
+13:30	instagram.com	✅ Autorisé
+14:01	tiktok.com	❌ Bloqué
+

