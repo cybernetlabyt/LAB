@@ -1,0 +1,22 @@
+use case 1 : Bloquer les fichiers exécutables (EXE, MSI) en téléchargement HTTP/HTTPS
+
+Objectif : Empêcher les utilisateurs de télécharger des fichiers potentiellement dangereux (EXE, MSI, etc.) depuis le web
+
+
+ Contexte : Dans une entreprise, les utilisateurs ne doivent pas installer de logiciels non autorisés ou de malware via des exécutables téléchargés.
+
+
+Extensions à bloquer : .exe, .msi,
+
+Avantages : Réduction des risques d’infection par malware
+            Renforce la politique d’utilisation contrôlée des logiciels
+
+
+
+
+
+test : 7zip.msi |  https://www.7-zip.com/download.html
+       mozilla.exe | https://www.mozilla.org/fr/firefox/windows/
+
+      pour aller plus loin : putty | avec un .exe dans un zip : https://the.earth.li~sgtatham/putty/latest/w64/putty.zip
+       

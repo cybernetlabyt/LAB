@@ -1,0 +1,18 @@
+use case 2 : Blocage des fichiers multimédia (.mp4, .mp3, .avi, etc.)
+
+
+
+Objectif : Empêcher les utilisateurs de télécharger ou recevoir des fichiers multimédia non autorisés (ex : .mp4, .mp3, .avi) via HTTP ou HTTPS grâce au File Filter de FortiGate.
+
+
+Context : Dans une entreprise ou un établissement scolaire, les utilisateurs ne doivent pas télécharger ou stocker de contenu multimédia (vidéos, musiques, films, sons, etc.) à des fins non professionnelles.
+Ce type de fichier consomme énormément de bande passante, peut diminuer la productivité, ou même contenir du contenu inapproprié ou potentiellement risqué.
+
+
+
+
+test : mp4 | https://samplelib.com/sample-mp4.html
+
+       avi | https://filesamples.com/samples/video/avi/sample_640x360.avi
+
+       mp3 dans un zip | https://archive.org/details/Mp3Sample
